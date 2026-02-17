@@ -1,3 +1,4 @@
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -59,7 +60,7 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText }
                     placeholder={getControlItem.placeholder}
                     id={getControlItem.id}
                     value={value}
-                    onChange={() => 
+                    onChange={(event) => 
                         setFormData({
                             ...formData,
                             [getControlItem.name]: event.target.value,
@@ -69,6 +70,7 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText }
             )
         
             default:
+                element = (
                     <input
                         name={getControlItem.name}
                         placeholder={getControlItem.placeholder}
@@ -81,6 +83,7 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText }
                             })
                         }}
                         />
+                    )
             break;
         }
 
@@ -107,3 +110,6 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText }
         </form>
     )
 }
+
+
+export default CommonForm
