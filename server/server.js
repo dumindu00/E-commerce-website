@@ -2,9 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose"); // help you to connect server with database
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const authRouter = require('./routes/auth/auth-routes')
 
 
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
+
 dotenv.config();
 
 const mongo_url = process.env.DB_URL;
@@ -20,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
     cors({
-        origin : 'http://localhost:5173/',
+        origin : 'http://localhost:5173',
         methods : ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders : [
             "Content-Type",
@@ -29,13 +31,17 @@ app.use(
             "Expires",
             "Pragma"
         ],
-        credentials : true
-        
+        credentials : true,
     })
 )
 
-
+app.use(express.json())
 app.use(cookieParser())
 app.use(express.json())
+app.use("/api/auth", authRouter)
+
+
+//----> /api/auth/register ---> registerUser
+//----> /api/auth/login ---> loginUser
 
 app.listen(PORT, ()=> console.log(`Server Running😎 on PORT${PORT}`))
