@@ -15,16 +15,12 @@ import ShoppingListing from "./pages/shopping-view/listing"
 import ShoppingCheckout from "./pages/shopping-view/checkout"
 import CheckAuth from "./components/common/check-auth"
 import UnauthPage from "./pages/unauth-page"
+import { useSelector } from "react-redux"
 
 
 function App() {
 
-  const isAuthenticated = true;
-  const user = {
-    name: "dvj",
-    role: "user"
-
-  }
+      const {user, isAuthenticated} = useSelector(state => state.auth)
 
 
 
@@ -33,8 +29,8 @@ function App() {
 
             <Routes>
             <Route path="/auth" element={
-                  <CheckAuth>
-                        <AuthLayout isAuthenticated={isAuthenticated} user={user} />
+                  <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                        <AuthLayout  />
                   </CheckAuth>
             }>
             <Route path="login" element={<AuthLogin />}/>

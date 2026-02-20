@@ -26,13 +26,13 @@ export const registerFormControls = [
 
 export const loginFormControls = [
     
-    {
-        name : 'userName',
-        label: 'User Name',
-        placeholder: 'Enter your name',
-        componentType: 'input',
-        type: 'text',
-    },
+    // {
+    //     name : 'userName',
+    //     label: 'User Name',
+    //     placeholder: 'Enter your name',
+    //     componentType: 'input',
+    //     type: 'text',
+    // },
     {
         name : 'email',
         label: 'User Email',

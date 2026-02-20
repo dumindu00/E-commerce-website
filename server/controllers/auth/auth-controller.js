@@ -50,7 +50,7 @@ const loginUser = async(req, res) => {
             message : "User doesn't exists! Please register first!"
         })
 
-        const checkPasswordMatch = await bcrypt.compare(password, checkUser)
+        const checkPasswordMatch = await bcrypt.compare(password, checkUser.password);
         if(!checkPasswordMatch) return res.json({
             success : false,
             message: "Wrong password try again!"
