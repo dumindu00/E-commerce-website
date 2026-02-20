@@ -3,7 +3,7 @@
 function ShoppingHeader() {
     return (
         <div>
-            shpping view header
+            shopping view header
         </div>
     )
 }
