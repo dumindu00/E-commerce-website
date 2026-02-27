@@ -15,14 +15,25 @@ import ShoppingListing from "./pages/shopping-view/listing"
 import ShoppingCheckout from "./pages/shopping-view/checkout"
 import CheckAuth from "./components/common/check-auth"
 import UnauthPage from "./pages/unauth-page"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
+import { checkAuth } from "./store/auth-slice"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 function App() {
 
-      const {user, isAuthenticated} = useSelector(state => state.auth)
+      const {user, isAuthenticated, isLoading} = useSelector(state => state.auth)
+
+      const dispatch = useDispatch();
+
+      useEffect(() => {
+            dispatch(checkAuth())
+      }, [dispatch])
 
 
+      if (isLoading) return <Skeleton className="h-[600px] w-[600px]" />
+      console.log(isLoading, user)
 
   return (
       <div className="flex flex-col overflow-hidden bg-white">
@@ -43,10 +54,10 @@ function App() {
                         <AdminLayout />
                   </CheckAuth>
             }>
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="features" element={<AdminFeatures />} />
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="products" element={<AdminProducts />} />
+                  <Route path="orders" element={<AdminOrders />} />
+                  <Route path="features" element={<AdminFeatures />} />
             </Route>
 
             <Route path="/shop" element={
