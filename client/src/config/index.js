@@ -1,3 +1,4 @@
+
 export const registerFormControls = [
     
     {
@@ -48,3 +49,4 @@ export const loginFormControls = [
         type: 'password',
     }
 ]
+
