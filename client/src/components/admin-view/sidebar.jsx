@@ -32,9 +32,11 @@ function MenuItems({setOpen}) {
     return <nav className="mt-8 flex-col flex gap-2">
                 
                 { 
-                    adminSidebarMenuItems.map(menuItems => <div 
+                    adminSidebarMenuItems.map(menuItems => 
+                    <div 
                     key={menuItems.id} 
-                    onClick={()=> { navigate(menuItems.path)
+                    onClick={()=> { 
+                        navigate(menuItems.path)
                         setOpen ? setOpen(false) : null
                     }} 
                     className="flex cursor-pointer text-xl items-center gap-2 rounded-md px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground">
