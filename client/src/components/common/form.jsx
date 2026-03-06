@@ -40,7 +40,7 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText }
                     ...formData,
                     [getControlItem.name] : value
                 })} value={value}>
-                    <SelectTrigger className='w-full'>
+                    <SelectTrigger className="w-full">
                         <SelectValue placeholder={getControlItem.placeholder} />
                     </SelectTrigger>
                     <SelectContent>
@@ -68,6 +68,7 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText }
                     }
                 />
             )
+            break;
         
             default:
                 element = (
