@@ -1,6 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { UploadCloudIcon } from "lucide-react";
+import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { useRef } from "react"
 
 
@@ -11,6 +12,9 @@ function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploa
     function handleImageFileChange(event) {
         console.log(event.target.files);
         const selectedFile = event.target.files?.[0];
+        
+        console.log(selectedFile)
+        
         if (selectedFile) setImageFile(selectedFile)
     }
 
@@ -23,8 +27,20 @@ function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploa
 
         event.preventDefault()
         const droppedFile = event.dataTransfer.files?.[0]
-    }   if (droppedFile) setImageFile(droppedFile)
-    
+        if (droppedFile) setImageFile(droppedFile)
+    }
+
+    function handleRemoveImage() {
+        setImageFile(null);
+        if (inputRef.current) {
+            inputRef.current.value = "";
+        }
+    }
+
+
+    console.log(imageFile)
+
+
     return (
 
     <div className="w-full max-w-md mx-auto mt-4">
@@ -45,7 +61,17 @@ function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploa
                 <Label htmlFor="image-upload" className="flex flex-col items-center justify-center h-32 cursor-pointer">
                     <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
                     <span>Drag & drop or click to upload image</span>
-                </Label> : <div></div>
+                </Label> : 
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                        <FileIcon className="w-8 text-primary mr-2 h-8"/>
+                    </div>
+                    <p className="text-sm font-medium">{imageFile.name}</p>
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={handleRemoveImage}>
+                        <XIcon className="w-4 h-4" />
+                        <span className="sr-only">Remove File</span>
+                    </Button>
+                </div>
             }
 
         </div>
