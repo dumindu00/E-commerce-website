@@ -61,8 +61,8 @@ function AdminProducts() {
                     </SheetHeader>
 
                     <ProductImageUpload
-                        file={imageFile}
-                        setFile={setImageFile}
+                        imageFile={imageFile}
+                        setImageFile={setImageFile}
                         uploadedImageUrl={uploadedImageUrl}
                         setUploadedImageUrl={setUploadedImageUrl}
 
