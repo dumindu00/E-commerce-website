@@ -3,7 +3,7 @@ const mongoose = require("mongoose"); // help you to connect server with databas
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRouter = require('./routes/auth/auth-routes')
-
+const adminProductsRouter = require('./routes/admin/products-routes')
 
 const dotenv = require('dotenv');
 
@@ -39,6 +39,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.json())
 app.use("/api/auth", authRouter)
+app.use('/api/admin/products', adminProductsRouter)
 
 
 //----> /api/auth/register ---> registerUser
