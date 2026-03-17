@@ -1,12 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { useEffect, useRef } from "react"
 
 
-function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl}) {
+function ProductImageUpload({
+    imageFile, 
+    setImageFile, 
+    uploadedImageUrl, 
+    setUploadedImageUrl,
+    setImageLoadingState,
+    imageLoadingState
+}) {
     
     const inputRef = useRef(null)
 
@@ -43,10 +51,15 @@ function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploa
 
 
     async function uploadImageToCloudinary() {
+        setImageLoadingState(true)
         const data = new FormData()
         data.append('my_file', imageFile)
         const response = await axios.post("http://localhost:5000/api/admin/products/upload-image", data)
-        if(response?.data?.success) setUploadedImageUrl(response.data.result.url)
+        
+        if(response?.data?.success) { 
+            setUploadedImageUrl(response.data.result.url)
+            setImageLoadingState(false)
+        }
     }
 
     useEffect(() => {
@@ -73,11 +86,13 @@ function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploa
             onChange={handleImageFileChange}
             />
             {
-                !imageFile ?
+                !imageFile ? (
                 <Label htmlFor="image-upload" className="flex flex-col items-center justify-center h-32 cursor-pointer">
                     <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
                     <span>Drag & drop or click to upload image</span>
-                </Label> : 
+                </Label> ) : (
+                    imageLoadingState ? (
+                    <Skeleton className='h-10 bg-gray-100' /> ) : 
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
                         <FileIcon className="w-8 text-primary mr-2 h-8"/>
@@ -88,6 +103,7 @@ function ProductImageUpload({imageFile, setImageFile, uploadedImageUrl, setUploa
                         <span className="sr-only">Remove File</span>
                     </Button>
                 </div>
+                )
             }
 
         </div>
