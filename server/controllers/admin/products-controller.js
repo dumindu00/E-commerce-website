@@ -7,11 +7,12 @@ const handleImageUpload = async(req, res) => {
     try {
         const b64 = Buffer.from(req.file.buffer).toString('base64')
         const url = "data:" + req.file.mimetype + ";base64," + b64;
-        const result = await imageUploadUtil(b64)
+        const result = await imageUploadUtil(url)
 
         res.json({
             success: true,
             result,
+            imageUrl: result.secure_url,
         })
 
     } catch (error) {
@@ -29,7 +30,7 @@ const addProduct  = async(req, res) => {
     try {
         const { 
             image, 
-            tittle, 
+            title, 
             description, 
             category, 
             brand, 
@@ -39,7 +40,7 @@ const addProduct  = async(req, res) => {
 
         const newlyCreatedProduct = new Product({
             image, 
-            tittle, 
+            title, 
             description, 
             category, 
             brand, 
@@ -91,7 +92,7 @@ const editProduct  = async(req, res) => {
 
         const { 
             image, 
-            tittle, 
+            title, 
             description, 
             category, 
             brand, 

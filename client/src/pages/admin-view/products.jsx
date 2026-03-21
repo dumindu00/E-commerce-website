@@ -5,8 +5,9 @@ import { addProductFormElements } from "@/config";
 import { Fragment, useEffect, useState } from "react"
 import ProductImageUpload from "./image-upload";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProducts } from "@/store/admin/products-slice";
-
+import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { toast } from "sonner"
+import AdminProductTile from "@/components/admin-view/product-tile";
 
 
 const initialFormData = {
@@ -35,6 +36,19 @@ function AdminProducts() {
 
     function onSubmit (event) {
         event.preventDefault();
+        dispatch(addNewProduct({
+            ...formData,
+            image : uploadedImageUrl,
+        })).then((data) => {
+            console.log(data)
+            if(data?.payload?.success) {
+                dispatch(fetchAllProducts())
+                setOpenCreateProductsDialog(false)
+                setImageFile(null)
+                setFormData(initialFormData)
+                toast('Product added Successfully!')
+            }
+        })
     }
 
     useEffect(() => {
@@ -53,6 +67,12 @@ function AdminProducts() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+            
+                {
+                    productList && productList.length > 0 ?
+                    productList.map(productItem => <AdminProductTile  product={productItem} />) : null
+                }
+            
             </div>
 
 
