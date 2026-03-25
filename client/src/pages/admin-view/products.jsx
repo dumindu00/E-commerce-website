@@ -5,9 +5,10 @@ import { addProductFormElements } from "@/config";
 import { Fragment, useEffect, useState } from "react"
 import ProductImageUpload from "./image-upload";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { addNewProduct, deleteProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import { toast } from "sonner"
 import AdminProductTile from "@/components/admin-view/product-tile";
+
 
 
 const initialFormData = {
@@ -31,11 +32,29 @@ function AdminProducts() {
     const [imageFile, setImageFile] = useState(null)
     const [uploadedImageUrl, setUploadedImageUrl] = useState('')
     const [imageLoadingState, setImageLoadingState] = useState(false)
+
+    const [currentEditedId, setCurrentEditedId] = useState(null)
+
+
     const {productList} = useSelector(state=>state.adminProducts)
     const dispatch = useDispatch()
 
     function onSubmit (event) {
         event.preventDefault();
+
+        currentEditedId !== null ?
+        dispatch(editProduct({
+            id : currentEditedId, formData
+        })).then((data) => {
+            console.log(data, "edit")
+
+            if(data?.payload?.success) {
+                dispatch(fetchAllProducts())
+                setFormData(initialFormData)
+                setOpenCreateProductsDialog(false)
+                setCurrentEditedId(null)
+            }
+        }) :
         dispatch(addNewProduct({
             ...formData,
             image : uploadedImageUrl,
@@ -51,11 +70,26 @@ function AdminProducts() {
         })
     }
 
+
+    function handleDelete(getCurrentProductId) {
+        dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+            if (data?.payload?.success) {
+                dispatch(fetchAllProducts());
+            }
+        })
+    }
+
+    function isFormValid() {
+        return Object.keys(formData)
+            .map((key) => formData[key] !== "")
+            .every((item) => item)
+    }
+
     useEffect(() => {
         dispatch(fetchAllProducts())
     }, [dispatch])
 
-    console.log(productList, "productList")
+    // console.log(productList, "productList")
 
 
     return (
@@ -70,7 +104,14 @@ function AdminProducts() {
             
                 {
                     productList && productList.length > 0 ?
-                    productList.map(productItem => <AdminProductTile  product={productItem} />) : null
+                    productList.map(productItem => <AdminProductTile
+                                                        key={productItem.id || productItem._id}
+                                                        setFormData={setFormData} 
+                                                        setOpenCreateProductsDialog={setOpenCreateProductsDialog} 
+                                                        setCurrentEditedId={setCurrentEditedId} 
+                                                        product={productItem}
+                                                        handleDelete={handleDelete}
+                                                        />) : null
                 }
             
             </div>
@@ -80,13 +121,17 @@ function AdminProducts() {
                 open={openCreateProductsDialog}
                 onOpenChange={() => {
                     setOpenCreateProductsDialog(false);
+                    setCurrentEditedId(null)
+                    setFormData(initialFormData)
                 }}
             >
 
                 <SheetContent side="right" className="overflow-auto">
                     <SheetHeader>
                         <SheetTitle>
-                            Add New Product
+                            {
+                                currentEditedId !== null ? 'Edit Product' : 'Add New Product'
+                            }
                         </SheetTitle>
                     </SheetHeader>
 
@@ -97,6 +142,8 @@ function AdminProducts() {
                         setUploadedImageUrl={setUploadedImageUrl}
                         setImageLoadingState={setImageLoadingState}
                         imageLoadingState={imageLoadingState}
+                        currentEditedId={currentEditedId}
+                        isEditMode={currentEditedId !== null}
                     />
 
                     <div className="py-6">
@@ -104,8 +151,9 @@ function AdminProducts() {
                             onSubmit={onSubmit}
                             formData={formData}
                             setFormData={setFormData}
-                            buttonText='Add'
+                            buttonText={currentEditedId !== null ? 'Edit' : "Add" }
                             formControls={addProductFormElements}
+                            isBtnDisabled={!isFormValid()}
                         />
                     </div>
 
