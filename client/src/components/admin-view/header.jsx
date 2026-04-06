@@ -1,7 +1,16 @@
 import { LogOut, Menu } from "lucide-react"
 import { Button } from "../ui/button"
+import { useDispatch } from "react-redux"
+import { logoutUser } from "@/store/auth-slice"
 
 function AdminHeader ({ setOpen }) {
+
+    const dispatch = useDispatch()
+
+    function handleLogout() {
+        dispatch(logoutUser())
+    }
+
     return (
         <header className="flex items-center justify-between px-4 py-3 bg-background border-b">
 
@@ -11,7 +20,7 @@ function AdminHeader ({ setOpen }) {
             </Button>
 
             <div className="flex flex-1 justify-end">
-                <Button className="inline-flex gap-2 items-center rounded-md px-4 py-2 font-medium shadow">
+                <Button onClick={handleLogout} className="inline-flex gap-2 items-center rounded-md px-4 py-2 font-medium shadow">
                     <LogOut />
                     <span>Logout</span>
                 </Button>
