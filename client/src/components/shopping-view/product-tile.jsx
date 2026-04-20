@@ -5,11 +5,11 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 
 
 
-function ShoppingProductTile({product}) {
+function ShoppingProductTile({product, handleGetProductDetails}) {
     return ( 
-        <Card>
-            <div className="w-full max-w-sm mx-auto">
-                <div>
+        <Card className="w-full max-w-sm mx-auto" >
+            <div pnClick={() => handleGetProductDetails(product?._id)}>
+                <div >
                     <div className="relative">
                         <img
                             src={product?.image}
