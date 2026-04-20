@@ -8,9 +8,6 @@ function CheckAuth ({isAuthenticated, user, children}) {
 
     const location = useLocation();
 
-
-    console.log(isAuthenticated, user, location)
-
     if(!isAuthenticated && 
         !(
             location.pathname.includes("/login") ||
