@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 function ShoppingProductTile({product, handleGetProductDetails}) {
     return ( 
         <Card className="w-full max-w-sm mx-auto" >
-            <div pnClick={() => handleGetProductDetails(product?._id)}>
+            <div onClick={() => handleGetProductDetails(product?._id)}>
                 <div >
                     <div className="relative">
                         <img
