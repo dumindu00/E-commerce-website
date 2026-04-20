@@ -3,7 +3,7 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { sortOptions } from "@/config"
-import { fetchAllFilteredProducts } from "@/store/shop"
+import { fetchAllFilteredProducts } from "@/store/shop/products-slice"
 import { ArrowUpDownIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -15,7 +15,7 @@ import { useSearchParams } from "react-router-dom"
 function createSearchParamsHelper(filterParams) {
     const queryParams = [];
 
-    for(const [key, value] of Object.keys(filterParams)) {
+    for(const [key, value] of Object.entries(filterParams)) {
         if(Array.isArray(value) && value.length > 0) {
             const paramValue = value.join(',')
 
@@ -59,7 +59,7 @@ function ShoppingListing() {
             const indexOfCurrentSection = cpyFilters[getSectionId].indexOf(getCurrentOption)
 
             if(indexOfCurrentSection === -1) 
-                cpyFilters[getSectionId].push[getCurrentOption]
+                cpyFilters[getSectionId].push(getCurrentOption)
 
                 else cpyFilters[getSectionId].splice(indexOfCurrentSection, 1)
         }
@@ -84,9 +84,10 @@ function ShoppingListing() {
 
     // fetch list of products
     useEffect(() => {
-        dispatch(fetchAllFilteredProducts())
+        if(filters !== null && sort !== null)
+        dispatch(fetchAllFilteredProducts({ filterParams : filters, sortParams : sort  }))
 
-    }, [dispatch])
+    }, [dispatch, sort, filters])
 
     console.log(filters, searchParams, "filters")
 
