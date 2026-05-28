@@ -8,7 +8,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback } from "../ui/avatar"
 import { logoutUser } from "@/store/auth-slice"
 import UserCartWrapper from "./cart-wrapper"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { fetchCartItems } from "@/store/shop/cart-slice"
 
 
 function MenuItem() {
@@ -33,13 +34,24 @@ function HeaderRightContent() {
 
 
     const {user} = useSelector((state)=>state.auth)
+    const {cartItems} = useSelector(state=>state.shopCart)
     const [openCartSheet, setOpenCartSheet] = useState(false)
+    
+    
+    
+    
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     function handleLogout() {
         dispatch(logoutUser())
     }
+
+    useEffect(() => {
+        dispatch(fetchCartItems(user?.id))
+    }, [dispatch])
+
+    console.log(cartItems)
 
     return <div className="flex lg:place-items-center lg:flex-row flex-col gap-4">
 
@@ -53,7 +65,7 @@ function HeaderRightContent() {
             <span className="sr-only">User Cart</span>
         </Button>
 
-        <UserCartWrapper/>
+        <UserCartWrapper cartItems={cartItems && cartItems.item && cartItems.item.length > 0 ? cartItems.item : []}  />
 
         </Sheet>
 

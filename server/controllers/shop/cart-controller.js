@@ -4,7 +4,7 @@ const Product = require('../../models/Product')
 
 const addToCart = async(req, res) => {
     try {
-        const {userID, productId, quantity} = req.body
+        const {userId, productId, quantity} = req.body
 
         if(!userId || !productId || quantity <= 0) {
             return res.status(400).json({
@@ -65,7 +65,7 @@ const fetchCartItems = async(req, res) => {
         }
 
         const cart = await Cart.findOne({userId}).populate({
-            path : 'item.productId',
+            path : 'items.productId',
             select : 'image title price salePrice'
         })
 
