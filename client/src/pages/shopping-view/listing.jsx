@@ -10,6 +10,7 @@ import { ArrowUpDownIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { data, useSearchParams } from "react-router-dom"
+import { toast } from "sonner"
 
 
 
@@ -45,7 +46,7 @@ function ShoppingListing() {
     const [sort, setSort] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
-
+    
 
     function handleSort (value) {
         setSort(value)
@@ -91,6 +92,7 @@ function handleAddtoCart(getCurrentProductId) {
     ).then(data=> {
         if(data?.payload?.success) {
             dispatch(fetchCartItems(user?.id))
+            toast('Product is added to cart.')
         }
     })
 }
