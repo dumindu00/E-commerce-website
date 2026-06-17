@@ -88,6 +88,66 @@ const shoppingCartSlice = createSlice({
             state.cartItems = []
         })
     }
+
+
+
+
+
+//     extraReducers : (builder) => {
+//     builder
+//         // ADD TO CART
+//         .addCase(addToCart.pending, (state)=> {
+//             state.isLoading = true
+//         })
+//         .addCase(addToCart.fulfilled, (state, action) => {
+//             state.isLoading = false;
+//             // Extract the items array safely
+//             state.cartItems = action.payload?.data?.items || [];
+//         })
+//         .addCase(addToCart.rejected, (state) => {
+//             state.isLoading = false;
+//         })
+
+//         // FETCH CART ITEMS
+//         .addCase(fetchCartItems.pending, (state)=> {
+//             state.isLoading = true
+//         })
+//         .addCase(fetchCartItems.fulfilled, (state, action) => {
+//             state.isLoading = false;
+//             // Pull the items array from the response data object
+//             state.cartItems = action.payload?.data?.items || [];
+//         })
+//         .addCase(fetchCartItems.rejected, (state) => {
+//             state.isLoading = false;
+//             state.cartItems = [];
+//         })
+
+//         // UPDATE QUANTITY
+//         .addCase(updateCartQuantity.pending, (state)=> {
+//             state.isLoading = true
+//         })
+//         .addCase(updateCartQuantity.fulfilled, (state, action) => {
+//             state.isLoading = false;
+//             // Update state with the newly populated items array sent by backend
+//             state.cartItems = action.payload?.data?.items || [];
+//         })
+//         .addCase(updateCartQuantity.rejected, (state) => {
+//             state.isLoading = false;
+//         })
+
+//         // DELETE CART ITEM
+//         .addCase(deleteCartItem.pending, (state)=> {
+//             state.isLoading = true
+//         })
+//         .addCase(deleteCartItem.fulfilled, (state, action) => {
+//             state.isLoading = false;
+//             // Grab the fresh items array returned after deletion
+//             state.cartItems = action.payload?.data?.items || [];
+//         })
+//         .addCase(deleteCartItem.rejected, (state) => {
+//             state.isLoading = false;
+//         })
+// }
 })
 
 

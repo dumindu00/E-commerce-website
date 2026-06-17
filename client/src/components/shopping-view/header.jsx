@@ -51,7 +51,7 @@ function HeaderRightContent() {
         dispatch(fetchCartItems(user?.id))
     }, [dispatch])
 
-    console.log(cartItems)
+    
 
     return <div className="flex lg:place-items-center lg:flex-row flex-col gap-4">
 
